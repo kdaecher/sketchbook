@@ -1,0 +1,19 @@
+{
+  "name": "sketchbook",
+  "version": "1.0.0",
+  "description": "karson daecher's digital sketchbook.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kdaecher/sketchbook.git"
+  },
+  "author": "karson daecher",
+  "license": "ISC",
+  "homepage": "https://github.com/kdaecher/sketchbook#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
