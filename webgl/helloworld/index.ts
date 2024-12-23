@@ -19,7 +19,7 @@ async function draw() {
 
   }
 
-  const vertexShaderSource = await loadShader('helloworld.vert');
+  const vertexShaderSource = await loadShader('shaders/vertex.vert');
 
   gl.shaderSource(vertexShader, vertexShaderSource);
   gl.compileShader(vertexShader);
@@ -27,7 +27,7 @@ async function draw() {
     console.error("Failed to compile vertex shader");
   }
 
-  const fragmentShaderSource = await loadShader('helloworld.frag');
+  const fragmentShaderSource = await loadShader('shaders/fragment.frag');
 
   const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
   if (!fragmentShader) {
