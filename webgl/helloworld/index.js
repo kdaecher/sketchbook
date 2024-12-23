@@ -28,13 +28,13 @@ function draw() {
             console.error("Failed to create vertex shader");
             return;
         }
-        const vertexShaderSource = yield loadShader('helloworld.vert');
+        const vertexShaderSource = yield loadShader('shaders/vertex.vert');
         gl.shaderSource(vertexShader, vertexShaderSource);
         gl.compileShader(vertexShader);
         if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
             console.error("Failed to compile vertex shader");
         }
-        const fragmentShaderSource = yield loadShader('helloworld.frag');
+        const fragmentShaderSource = yield loadShader('shaders/fragment.frag');
         const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
         if (!fragmentShader) {
             console.error("Failed to create fragment shader");
