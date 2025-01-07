@@ -16,7 +16,7 @@
   "license": "ISC",
   "homepage": "https://github.com/kdaecher/sketchbook#readme",
   "nodemonConfig": {
-    "ext": "ts",
+    "ext": "ts, frag, vert",
     "events": {
       "restart": "npm run build"
     }
