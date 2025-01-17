@@ -35,8 +35,8 @@ mat2 scale(vec2 _scale){
 
 void main() {
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
-  st = st*2.;
   st -= vec2(0.5);
+  st = st*2.;
 
   st += vec2(0.3, 0.0);
 
@@ -60,14 +60,14 @@ void main() {
   st += vec2(0.5, 0.);
   st += vec2(0.5, 0.);
   st -= vec2(0.3, 0.0);
-  st += vec2(0.5);
   st = st/2.;
+  st += vec2(0.5);
   // scale
   st = scale(vec2(2., 2.)) * st;
 
   //redo transforms
-  st = st*2.;
   st -= vec2(0.5);
+  st = st*2.;
   st += vec2(0.3, 0.0);
   st -= vec2(0.5, 0.0);
   st -= vec2(0.5, 0.0);
