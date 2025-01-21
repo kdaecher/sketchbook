@@ -10,10 +10,15 @@ uniform float u_time;
 #define PI 3.14159265359
 #define TWO_PI 6.28318530718
 
-vec4 circle(vec2 st, vec2 center, float radius, vec3 color) {
-  float multiplier = 1.0/radius;
-  float pct = 1.0 - step(1.0, multiplier*distance(st,center));
-	return vec4(pct * color, 1.0);
+float circleOutline(vec2 st, vec2 center, float radius, vec3 color) {
+  vec2 l = st-vec2(center);
+  float pct = 1.-smoothstep(radius-(radius*0.01),
+                         radius+(radius*0.01),
+                         dot(l,l)*4.0);
+  float radiusInner = radius - 0.03;
+  float pctInner = 1.0 - smoothstep(radiusInner - (radiusInner*-.01), radiusInner + (radiusInner*0.01), dot(l,l)*4.0);
+  return pct - pctInner; 
+	// return vec4(pct * color, 1.0);
 }
 
 float plot(vec2 st, float pct){
@@ -29,8 +34,7 @@ vec4 rect (float x, float y, float width, float height, vec3 color, vec2 st) {
 }
 
 mat2 scale(vec2 _scale){
-    return mat2(_scale.x,0.0,
-                0.0,_scale.y);
+  return mat2(_scale.x,0.0, 0.0,_scale.y);
 }
 
 void main() {
@@ -38,28 +42,22 @@ void main() {
   st -= vec2(0.5);
   st = st*2.;
 
-  st += vec2(0.3, 0.0);
-
-  float pct = 1./0.3 * distance(st, vec2(0.5, 0.5));
-  float outline = plot(st, pct);
-  vec3 circle = vec3(outline);
+  float pct = circleOutline(st, vec2(0.0, 0.0), 0.3, vec3(1.0, 1.0, 1.0));
+  vec3 circle = vec3(pct);
 
   st -= vec2(0.5, 0.0);
 
-  float pct2 = 1./0.3 * distance(st, vec2(0.5, 0.5));
-  float outline2 = plot(st, pct2);
-  vec3 circle2 = vec3(outline2);
+  float pct2 = circleOutline(st, vec2(0.0, 0.0), 0.3, vec3(1.0, 1.0, 1.0));
+  vec3 circle2 = vec3(pct2);
 
-  st -= vec2(0.5, 0.0);
+  st += vec2(1.0, 0.0);
 
-  float pct3 = 1./0.3 * distance(st, vec2(0.5, 0.5));
-  float outline3 = plot(st, pct3);
-  vec3 circle3 = vec3(outline3);
+  float pct3 = circleOutline(st, vec2(0.0, 0.0), 0.3, vec3(1.0, 1.0, 1.0));
+  vec3 circle3 = vec3(pct3);
 
   // undo transforms
+  st -= vec2(1.0, 0.);
   st += vec2(0.5, 0.);
-  st += vec2(0.5, 0.);
-  st -= vec2(0.3, 0.0);
   st = st/2.;
   st += vec2(0.5);
   // scale
@@ -68,13 +66,9 @@ void main() {
   //redo transforms
   st -= vec2(0.5);
   st = st*2.;
-  st += vec2(0.3, 0.0);
-  st -= vec2(0.5, 0.0);
-  st -= vec2(0.5, 0.0);
 
-  float pct4 = 1./0.3 * distance(st, vec2(0.5, 0.5));
-  float outline4 = plot(st, pct4);
-  vec3 circle4 = vec3(outline4);
+  float pct4 = circleOutline(st, vec2(0.0, 0.0), 0.3, vec3(1.0, 1.0, 1.0));
+  vec3 circle4 = vec3(pct4);
 
   gl_FragColor = vec4(circle+circle2+circle3+circle4, 1.0);
 } 
