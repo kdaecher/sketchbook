@@ -39,14 +39,14 @@ function main() {
             return;
         }
         let vertexShaderSource = yield loadShader('shaders/vertex.vert');
-        vertexShaderSource = yield resolveLygiaAsync(vertexShaderSource);
+        // vertexShaderSource = await resolveLygiaAsync(vertexShaderSource);
         const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
         if (!vertexShader) {
             console.error("Failed to create vertex shader");
             return;
         }
         let fragmentShaderSource = yield loadShader('shaders/fragment.frag');
-        fragmentShaderSource = yield resolveLygiaAsync(fragmentShaderSource);
+        // fragmentShaderSource = await resolveLygiaAsync(fragmentShaderSource);
         const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
         if (!fragmentShader) {
             console.error("Failed to create fragment shader");
