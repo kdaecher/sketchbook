@@ -125,8 +125,16 @@ async function main() {
 }
 
 
+const body = document.getElementsByTagName("body")[0];
+const content = document.getElementById("content") as HTMLElement;
 const canvas = document.createElement("canvas");
-document.getElementById("content")?.appendChild(canvas);
+
+body.style.background = "black";  
+body.style.height = "100vh";
+content.style.display = "flex";
+content.style.justifyContent = "center";
+content.style.height = "100%";
+content.appendChild(canvas);
 canvas.id = "webgl-canvas";
 canvas.width = 600;
 canvas.height = 600;
