@@ -8,7 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 function loadShader(url) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -114,8 +113,15 @@ function main() {
         requestAnimationFrame(render);
     });
 }
+const body = document.getElementsByTagName("body")[0];
+const content = document.getElementById("content");
 const canvas = document.createElement("canvas");
-(_a = document.getElementById("content")) === null || _a === void 0 ? void 0 : _a.appendChild(canvas);
+body.style.background = "black";
+body.style.height = "100vh";
+content.style.display = "flex";
+content.style.justifyContent = "center";
+content.style.height = "100%";
+content.appendChild(canvas);
 canvas.id = "webgl-canvas";
 canvas.width = 600;
 canvas.height = 600;
