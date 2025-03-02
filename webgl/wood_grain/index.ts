@@ -129,15 +129,15 @@ const body = document.getElementsByTagName("body")[0];
 const content = document.getElementById("content") as HTMLElement;
 const canvas = document.createElement("canvas");
 
-body.style.background = "black";  
+// body.style.background = "black";  
 body.style.height = "100vh";
 content.style.display = "flex";
 content.style.justifyContent = "center";
 content.style.height = "100%";
 content.appendChild(canvas);
 canvas.id = "webgl-canvas";
-canvas.width = 600;
-canvas.height = 400;
+canvas.width = 800;
+canvas.height = 800;
 
 const canvasRect = canvas.getBoundingClientRect();
 let mousePos: [number, number] = [0, 0];
