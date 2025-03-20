@@ -63,8 +63,8 @@ float lines(in vec2 pos, float b) {
 void main(void) {
     vec2 st = gl_FragCoord.xy / u_resolution.xy;
 
-    vec2 pos = vec2(st * 10.) + vec2(noise(vec2(u_time)));
-    pos = rotate2d(pos, noise(vec2(u_time )));
+    vec2 pos = vec2(st * 10.);
+    pos = rotate2d(pos, noise(pos)) * noise(vec2(u_time));
 
     float rect1 = rect(0.0, 0.0, 0.2, 1., pos);
     float rect2 = rect(0.4, 0.0, 0.6, 1., pos);
