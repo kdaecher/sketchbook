@@ -30,7 +30,7 @@ async function main() {
   }
 
   let vertexShaderSource = await loadShader('shaders/vertex.vert');
-  vertexShaderSource = await resolveLygiaAsync(vertexShaderSource);
+  // vertexShaderSource = await resolveLygiaAsync(vertexShaderSource);
 
   const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
   if (!vertexShader) {
@@ -39,7 +39,7 @@ async function main() {
   }
 
   let fragmentShaderSource = await loadShader('shaders/fragment.frag');
-  fragmentShaderSource = await resolveLygiaAsync(fragmentShaderSource);
+  // fragmentShaderSource = await resolveLygiaAsync(fragmentShaderSource);
 
   const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
   if (!fragmentShader) {
