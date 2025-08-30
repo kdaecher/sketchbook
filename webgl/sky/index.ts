@@ -37,6 +37,7 @@ async function main() {
 
     // Get attribute and uniform locations
     const positionAttributeLocation = gl.getAttribLocation(program, 'a_position');
+    const timeUniformLocation = gl.getUniformLocation(program, "u_time");
     const resolutionUniformLocation = gl.getUniformLocation(program, 'u_resolution');
     
     // Create buffer for positions
@@ -65,15 +66,8 @@ async function main() {
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
     
-    // Clear the canvas
-    gl.clearColor(0, 0, 0, 1);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    
     // Use our shader program
     gl.useProgram(program);
-    
-    // Set the resolution
-    gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height);
     
     // Enable the attribute
     gl.enableVertexAttribArray(positionAttributeLocation);
@@ -84,7 +78,30 @@ async function main() {
     // Tell the attribute how to get data out of positionBuffer
     gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
     
+    let startTime = performance.now();
+
+
+    function render(currentTime: number) {
+    if (!gl) {
+      console.error("couldn't get WebGL context at render time");
+      return;
+    }
+    const time = (currentTime - startTime) * 0.001;
+     // Clear canvas
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // Update uniforms
+    gl.uniform1f(timeUniformLocation, time);
+    gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
+
+    // Draw
     gl.drawArrays(gl.TRIANGLES, 0, 6);
+    requestAnimationFrame(render);
+  }
+
+  // Start the animation
+  requestAnimationFrame(render);
 }
 
 const body = document.getElementsByTagName("body")[0];

@@ -1,5 +1,6 @@
 precision mediump float;
 uniform vec2 u_resolution;
+uniform float u_time;
 
 // Simple noise function (approximation of Perlin noise)
 float rand(vec2 co) {
@@ -25,6 +26,22 @@ float noise(vec2 st) {
         (d - b) * u.x * u.y;
 }
 
+#define OCTAVES 6
+float fbm(in vec2 st) {
+    // Initial values
+    float value = 0.0;
+    float amplitude = .5;
+    float frequency = 0.;
+    //
+    // Loop of octaves
+    for (int i = 0; i < OCTAVES; i++) {
+        value += amplitude * noise(st);
+        st *= 2.;
+        amplitude *= .5;
+    }
+    return value;
+}
+
 // HSB to RGB conversion
 vec3 hsb2rgb(vec3 c) {
     vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
@@ -35,8 +52,8 @@ vec3 hsb2rgb(vec3 c) {
 void main() {
     vec2 st = gl_FragCoord.xy / u_resolution.xy;
 
-    vec2 pos = vec2(st * 10.);
-    float sat = noise(pos);
+    vec2 pos = vec2(st * 5.);
+    float sat = fbm(pos);
 
     // Convert HSB to RGB
     // Hue: 220/360 = 0.611, Saturation: sat, Brightness: 1.0
