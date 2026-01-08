@@ -17,9 +17,13 @@
   "homepage": "https://github.com/kdaecher/sketchbook#readme",
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "@types/p5": "^1.7.7",
     "@webgpu/types": "^0.1.52",
     "glob": "^13.0.0",
     "typescript": "^5.7.2",
     "vite": "^6.4.1"
+  },
+  "dependencies": {
+    "p5": "^2.1.2"
   }
 }
