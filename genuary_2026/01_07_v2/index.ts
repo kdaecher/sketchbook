@@ -1,7 +1,7 @@
 import p5 from "p5";
 
-const CANVAS_WIDTH = window.innerWidth - 20;
-const CANVAS_HEIGHT = window.innerHeight - 40;
+const CANVAS_WIDTH = window.innerWidth;
+const CANVAS_HEIGHT = window.innerHeight - 10;
 
 let s: p5.Shader;
 
