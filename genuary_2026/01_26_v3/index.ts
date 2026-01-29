@@ -19,7 +19,8 @@ const sketch = (p: p5) => {
 new p5(sketch);
 
 function recurse(p: p5, rects: Rect[]): Rect[] {
-  if (rects.length >= 100) {
+  if (rects.length >= 10_000) {
+    p.noLoop();
     return rects; // base case
   }
   const new_rects = [];
@@ -37,11 +38,26 @@ function recurse(p: p5, rects: Rect[]): Rect[] {
     const end_x = start_x + width;
     const end_y = start_y + height;
 
-    const num_cols = p.random(8, 16); // todo: change based on num rects?
-    const num_rows = p.random(3, 5);
+    const num_cols = Math.floor(p.random(1, 20)); // todo: change based on num rects?
+    const num_rows = Math.floor(p.random(1, 20));
 
     // split cols evenly, split rows unevenly
-    const col_width = (end_x - start_x) / num_cols;
+    const col_widths = Array.from({ length: num_cols }, (_, idx) => idx).map(
+      (idx) => {
+        //  |||||||
+        //   |||||
+        //    |||
+        //     |
+        const idx_normed = (idx - num_cols / 2) / num_cols;
+        const idx_sq = idx_normed * idx_normed;
+        const col_width = p.lerp(start_x, end_x, Math.abs(idx_sq));
+        return col_width;
+      },
+    );
+    if (col_widths[num_cols - 1] < end_x) {
+      col_widths.push(end_x - col_widths.reduce((acc, w) => acc + w, 0));
+    }
+
     const row_heights = Array.from({ length: num_rows }, (_, idx) => idx).map(
       (idx) => {
         //  |||||||
@@ -49,19 +65,37 @@ function recurse(p: p5, rects: Rect[]): Rect[] {
         //    |||
         //     |
         const idx_normed = (idx - num_rows / 2) / num_rows;
-        const idx_sq = idx_normed * idx_normed;
-        return p.lerp(start_y, end_y, Math.abs(idx_sq));
+        const idx_sq = Math.pow(idx_normed, 2);
+        const row_height = p.lerp(start_y, end_y, idx_sq);
+        return row_height;
       },
     );
+    if (row_heights[num_rows - 1] < end_y) {
+      row_heights.push(end_y - row_heights.reduce((acc, h) => acc + h, 0));
+    }
 
-    for (let i = 0; i < num_cols; i++) {
-      for (let j = 0; j < num_rows; j++) {
+    for (let i = 0; i < col_widths.length; i++) {
+      for (let j = 0; j < row_heights.length; j++) {
+        const width = col_widths[i];
+        const height = row_heights[j];
+        if (width === 0 || height === 0) {
+          continue;
+        }
+
         new_rects.push(
           new Rect(
-            start_x + i * col_width,
-            start_y + i * row_heights[j],
-            col_width,
-            row_heights[j],
+            start_x +
+              col_widths.reduce(
+                (acc, w, idx) => (idx < i ? acc + w : acc + 0),
+                0,
+              ),
+            start_y +
+              row_heights.reduce(
+                (acc, h, idx) => (idx < j ? acc + h : acc + 0),
+                0,
+              ),
+            width,
+            height,
           ),
         );
       }
