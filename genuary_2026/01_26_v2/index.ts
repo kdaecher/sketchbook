@@ -19,7 +19,8 @@ const sketch = (p: p5) => {
 new p5(sketch);
 
 function recurse(p: p5, rects: Rect[]): Rect[] {
-  if (rects.length >= 100) {
+  if (rects.length >= 10_000) {
+    p.noLoop();
     return rects; // base case
   }
   const new_rects = [];
@@ -37,8 +38,8 @@ function recurse(p: p5, rects: Rect[]): Rect[] {
     const end_x = start_x + width;
     const end_y = start_y + height;
 
-    const num_cols = p.random(8, 16); // todo: change based on num rects?
-    const num_rows = p.random(3, 5);
+    const num_cols = Math.floor(p.random(1, 10)); // todo: change based on num rects?
+    const num_rows = Math.floor(p.random(1, 10));
 
     // split cols evenly, split rows unevenly
     const col_width = (end_x - start_x) / num_cols;
@@ -50,7 +51,8 @@ function recurse(p: p5, rects: Rect[]): Rect[] {
         //     |
         const idx_normed = (idx - num_rows / 2) / num_rows;
         const idx_sq = idx_normed * idx_normed;
-        return p.lerp(start_y, end_y, Math.abs(idx_sq));
+        const row_height = p.lerp(start_y, end_y, Math.abs(idx_sq));
+        return row_height;
       },
     );
 
@@ -59,7 +61,11 @@ function recurse(p: p5, rects: Rect[]): Rect[] {
         new_rects.push(
           new Rect(
             start_x + i * col_width,
-            start_y + i * row_heights[j],
+            start_y +
+              row_heights.reduce(
+                (acc, height, idx) => (idx < j ? acc + height : acc + 0),
+                0,
+              ),
             col_width,
             row_heights[j],
           ),
